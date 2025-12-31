@@ -1,4 +1,5 @@
 import copy
+import time
 
 class CSPSolver:
     def __init__(self, domains, stays, min_price, max_price):
@@ -66,3 +67,9 @@ class CSPSolver:
                 self.backtracks += 1
 
         return False
+
+    def solve(self):
+        self.start_time = time.time()
+        result = self.backtracking_search(0, copy.deepcopy(self.domains))
+        self.end_time = time.time()
+        return result
