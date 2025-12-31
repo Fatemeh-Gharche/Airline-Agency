@@ -1,4 +1,4 @@
-from flight import Flight
+from Flight import Flight
 
 def read_input():
     M = int(input())
