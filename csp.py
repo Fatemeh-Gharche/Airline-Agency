@@ -12,3 +12,15 @@ class CSPSolver:
         self.start_time = None
         self.end_time = None
 
+    
+    def is_consistent(self, var_index, flight):
+        if var_index == 0:
+            return True
+
+        prev_flight = self.assignment[var_index - 1]
+        min_stay, max_stay = self.stays[var_index - 1]
+
+        diff = flight.day - prev_flight.day
+        return min_stay <= diff <= max_stay
+
+   
