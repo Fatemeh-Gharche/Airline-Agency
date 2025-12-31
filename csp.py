@@ -1,3 +1,4 @@
+import copy
 
 class CSPSolver:
     def __init__(self, domains, stays, min_price, max_price):
@@ -23,9 +24,6 @@ class CSPSolver:
 
         diff = flight.day - prev_flight.day
         return min_stay <= diff <= max_stay
-
-    
-
     
     def forward_checking(self, var_index, flight, domains):
         if var_index == self.num_vars - 1:
@@ -49,4 +47,22 @@ class CSPSolver:
     def total_cost(self):
         return sum(f.price for f in self.assignment if f)
 
-   
+    def backtracking_search(self, var_index, domains):
+        if var_index == self.num_vars:
+            total = self.total_cost()
+            return self.min_price <= total <= self.max_price
+
+        for flight in domains[var_index]:
+            if self.is_consistent(var_index, flight):
+                self.assignment[var_index] = flight
+
+                new_domains = copy.deepcopy(domains)
+
+                if self.forward_checking(var_index, flight, new_domains):
+                    if self.backtracking_search(var_index + 1, new_domains):
+                        return True
+
+                self.assignment[var_index] = None
+                self.backtracks += 1
+
+        return False
