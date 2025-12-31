@@ -1,4 +1,3 @@
-# input_reader.py
 from flight import Flight
 
 def read_input():
